@@ -1,7 +1,21 @@
-# enterprise_mcp_mvp_demo_
+# enterprise_mcp_mvp_demo_ui
 
 The UI for the enterprise MCP MVP demo feature.
 
+## Repository Structure
+enterprise_mcp_mvp_demo_ui/
+    enterprise_mcp_mvp_demo_ui/
+        ├── init.py
+        ├── main.py
+        ├── utils.py 
+    ├── .env.dev.example
+    ├── .gitignore 
+    ├── docker-compose.yml
+    ├── Dockerfile
+    ├── poetry.lock
+    ├── pyproject.toml
+    ├── README.md
+    
 ## Prerequisites
 
 - Python 3.13
@@ -86,3 +100,7 @@ The UI for the enterprise MCP MVP demo feature.
     ```sh
     poe pre-commit
     ```
+
+## License
+
+This project is licensed under the MIT License.
