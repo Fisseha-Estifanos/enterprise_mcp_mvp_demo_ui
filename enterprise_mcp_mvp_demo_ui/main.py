@@ -30,7 +30,6 @@ def display_chatbot_ui():
             st.markdown(prompt)
 
         with st.chat_message("assistant"):
-            # TODO : get user name here
             answer = pass_question_to_router(
                 username=selected_user,
                 question=prompt,
