@@ -30,5 +30,5 @@ pre-commit = ["format", "lint"]
 
 [tool.poe.tasks.start-dev]
 shell = """
-source .env.dev && uvicorn platform_api.main:app --port $PORT --reload
+source .env.dev && streamlit run enterprise_mcp_mvp_demo_ui/main.py
 """
