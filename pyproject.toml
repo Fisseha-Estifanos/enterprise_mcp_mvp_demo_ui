@@ -10,8 +10,24 @@ python = "^3.13"
 streamlit = "^1.41.1"
 watchdog = "^6.0.0"
 python-dotenv = "^1.0.1"
+black = "^24.10.0"
+flake8 = "^7.1.1"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.poe.tasks]
+flake8 = "flake8"
+pyright = "pyright"
+lint = ["flake8", "pyright"]
+format = "black ."
+pre-commit = ["format", "lint"]
+
+
+[tool.poe.tasks.start-dev]
+shell = """
+source .env.dev && uvicorn platform_api.main:app --port $PORT --reload
+"""
