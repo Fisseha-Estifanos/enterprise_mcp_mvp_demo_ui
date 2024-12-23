@@ -1,10 +1,21 @@
 import streamlit as st
 
-from utils import pass_question_to_router
+from utils import pass_question_to_router, get_all_users
 
 
 def display_chatbot_ui():
     st.title("Enterprise MCP MVP demo")
+
+    users = get_all_users()
+    if len(users) == 0:
+        st.error("No users found")
+        return
+
+    usernames = []
+    for user in users:
+        if isinstance(user, dict) and "username" in user:
+            usernames.append(user["username"])
+    selected_user = st.sidebar.selectbox("Select a user", usernames)
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -21,7 +32,7 @@ def display_chatbot_ui():
         with st.chat_message("assistant"):
             # TODO : get user name here
             answer = pass_question_to_router(
-                username="user2",
+                username=selected_user,
                 question=prompt,
             )
             st.write(answer)

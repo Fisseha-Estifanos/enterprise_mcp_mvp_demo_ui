@@ -4,13 +4,12 @@ import requests
 from dotenv import load_dotenv
 
 load_dotenv()
+base_url = os.environ["base_url"]
 
 
 def pass_question_to_router(
     username,
     question,
-    base_url: str = os.environ["base_url"],
-    # TODO: change this to use the env variable?
     endpoint: str = "/request/route/",
 ):
     """
@@ -44,6 +43,32 @@ def pass_question_to_router(
         else:
             # TODO : better error handling
             return "Couldn't get answer"
+    except requests.exceptions.RequestException as e:
+        return f"An error occurred while handling request: {e}"
+    except Exception as ex:
+        return f"An error : {ex}"
+
+
+def get_all_users(endpoint: str = "/users/"):
+    """
+    Get all users from the FastAPI endpoint.
+
+    Returns:
+        list: A list of all users.
+    """
+    endpoint_url = f"{base_url.rstrip('/')}{endpoint}"
+    try:
+        response = requests.get(
+            endpoint_url,
+            timeout=30,
+        )
+        response.raise_for_status()
+        data = response.json()
+        if response.status_code == 200:
+            return data
+        else:
+            # TODO : better error handling
+            return []
     except requests.exceptions.RequestException as e:
         return f"An error occurred while handling request: {e}"
     except Exception as ex:
