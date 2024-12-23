@@ -1,9 +1,8 @@
-# enterprise_mcp_mvp_demo_ui
+# enterprise mcp mvp demo ui
 
 The UI for the enterprise MCP MVP demo feature.
 
 ## Repository Structure
-enterprise_mcp_mvp_demo_ui/
     enterprise_mcp_mvp_demo_ui/
         ├── init.py
         ├── main.py
