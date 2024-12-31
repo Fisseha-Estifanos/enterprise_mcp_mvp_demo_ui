@@ -633,7 +633,8 @@ def get_permissions(
 
 # region ASSOCIATIONS
 # The following code snippet is used to interact with the association management API.
-# It is used to create, update, and delete associations between users, roles, and permissions.
+# It is used to create, update, and delete associations between users, roles, and
+# permissions.
 # The functions are used in the admin panel to manage associations.
 
 

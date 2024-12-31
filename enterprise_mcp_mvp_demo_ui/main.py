@@ -1,50 +1,53 @@
+"""
+Main file for the Streamlit app.
+"""
+
 import streamlit as st
 
-from utils import pass_question_to_router, get_all_users
+from components.chat import display_chatbot_ui
+from components.admin import display_admin_ui
 
-
-def display_chatbot_ui():
-    st.title("Enterprise MCP MVP demo")
-
-    users = get_all_users()
-    if len(users) == 0:
-        st.error("No users found")
-        return
-
-    usernames = []
-    for user in users:
-        if isinstance(user, dict) and "username" in user:
-            usernames.append(user["username"])
-    selected_user = st.sidebar.selectbox("Select a user", usernames)
-
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
-
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
-
-    if prompt := st.chat_input("What is up?"):
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
-
-        with st.chat_message("assistant"):
-            answer = pass_question_to_router(
-                username=selected_user,
-                question=prompt,
-            )
-            st.write(answer)
-            st.session_state.messages.append(
-                {
-                    "role": "assistant",
-                    "content": answer,
-                }
-            )
+# from utils import login_user
 
 
 def main():
-    display_chatbot_ui()
+    # """Main function for the Streamlit app."""
+    # # Initialize session state for authentication
+    # if "authenticated" not in st.session_state:
+    #     st.session_state.authenticated = False
+
+    # # Login check
+    # if not st.session_state.authenticated:
+    #     st.header("Login")
+    #     username = st.text_input("Username")
+    #     password = st.text_input("Password", type="password")
+
+    #     if st.button("Login"):
+    #         if username and password:
+    #             response = login_user(username, password)
+    #             print(f"Response: {response}")
+    #             if response["status"] == "success":
+    #                 st.session_state.authenticated = True
+    #                 st.success("Login successful!")
+    #                 st.rerun()
+    #             else:
+    #                 st.error(response["message"])
+    #         else:
+    #             st.error("Please enter both username and password")
+    #     return
+
+    # # Show logout button in sidebar when authenticated
+    # if st.sidebar.button("Logout"):
+    #     st.session_state.authenticated = False
+    #     st.rerun()
+
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio("Go to", ["Chat", "Admin"])
+
+    if page == "Chat":
+        display_chatbot_ui()
+    else:
+        display_admin_ui()
 
 
 if __name__ == "__main__":
