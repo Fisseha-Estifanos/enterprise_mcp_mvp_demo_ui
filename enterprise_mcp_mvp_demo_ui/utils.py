@@ -637,13 +637,15 @@ def get_permissions(
 # permissions.
 # The functions are used in the admin panel to manage associations.
 
+ASSOCIATIONS_PREFIX = "associations"
+
 
 def create_association(
     user: str,
     role: str,
     resource: str,
     permission: str,
-    endpoint: str = "/associations/",
+    endpoint: str = f"/{ASSOCIATIONS_PREFIX}/",
 ) -> dict[str, Any]:
     """
     Create a new association with the given user, role, resource, and permission.
@@ -682,7 +684,7 @@ def create_association(
 
 
 def get_associations(
-    endpoint: str = "/associations/",
+    endpoint: str = f"/{ASSOCIATIONS_PREFIX}/",
 ) -> dict[str, Any]:
     """
     Get all associations from the FastAPI endpoint.
@@ -709,14 +711,16 @@ def get_associations(
         }
 
 
-def get_role_subject():
+def get_role_subject(
+    endpoint: str = f"/{ASSOCIATIONS_PREFIX}/role_subject/",
+):
     """
     Get all role_subject associations from the FastAPI endpoint.
 
     Returns:
         Dict[str, Any]: Response containing status, data and message
     """
-    endpoint_url = f"{base_url.rstrip('/')}/associations/role_subject/"
+    endpoint_url = f"{base_url.rstrip('/')}{endpoint}"
     try:
         response = requests.get(
             endpoint_url,
@@ -735,7 +739,7 @@ def test_permissions(
     user: str,
     resource: str,
     permission: str,
-    endpoint: str = "/associations/test_permissions/",
+    endpoint: str = f"/{ASSOCIATIONS_PREFIX}/test_permissions/",
 ) -> dict[str, Any]:
     """
     Test permissions for a user on a resource.
@@ -761,6 +765,8 @@ def test_permissions(
             json=payload,
             timeout=30,
         )
+        print(f"Response: {response}")
+        print(f"Response.json: {response.json()}")
         return handle_response(response)
     except Exception as ex:
         return {
@@ -779,9 +785,12 @@ def test_permissions(
 # The functions are used in the admin panel to manage resources.
 
 
+RESOURCE_PREFIX = "resources"
+
+
 def create_resource(
     resource_name: str,
-    endpoint: str = "/servers/",
+    endpoint: str = f"/{RESOURCE_PREFIX}/",
 ) -> dict[str, Any]:
     """
     Create a new resource with the given resource_name.
@@ -817,7 +826,7 @@ def create_resource(
 def update_resource(
     resource_id: str,
     resource_name: str,
-    endpoint: str = "/servers/",
+    endpoint: str = f"/{RESOURCE_PREFIX}/",
 ) -> dict[str, Any]:
     """
     Update an existing resource with the given resource_id and resource_name.
@@ -853,7 +862,7 @@ def update_resource(
 
 def delete_resource(
     resource_id: str,
-    endpoint: str = "/servers/",
+    endpoint: str = f"/{RESOURCE_PREFIX}/",
 ) -> dict[str, Any]:
     """
     Delete an existing resource with the given resource_id.
@@ -884,7 +893,7 @@ def delete_resource(
 
 def get_resource(
     resource_id: str,
-    endpoint: str = "/servers/",
+    endpoint: str = f"/{RESOURCE_PREFIX}/",
 ) -> dict[str, Any]:
     """
     Get an existing resource with the given resource_id.
@@ -914,7 +923,7 @@ def get_resource(
 
 
 def get_resources(
-    endpoint: str = "/servers/",
+    endpoint: str = f"/{RESOURCE_PREFIX}/",
 ) -> dict[str, Any]:
     """
     Get all resources from the FastAPI endpoint.
