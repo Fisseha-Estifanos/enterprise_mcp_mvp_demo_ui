@@ -177,19 +177,27 @@ def display_admin_ui():
                 resource=resource,
                 permission=permission,
             )
+            # test_permissions = {
+            #     "status": "success",
+            #     "data": {
+            #         "status": "success",
+            #         "message": "Authorized",
+            #         "authorized": True,
+            #     },
+            #     "message": "Request successful",
+            # }
             if test_permissions["status"] == "success":
-                if test_permissions["data"] == "Permission granted":
+                if test_permissions["data"]["authorized"]:
                     st.success(
-                        f"User {user} has the required {permission} permission"
+                        f"User {user} has the required {permission} permission "
                         + f"over the {resource} resource"
                     )
                     st.success(test_permissions["data"])
                 else:
                     st.error(
-                        f"User {user} does not have the required {permission}"
+                        f"User {user} does not have the required {permission} "
                         + f"permission over the {resource} resource"
                     )
                     st.error(test_permissions["data"])
-
             else:
                 st.error(f"Error testing permissions: {test_permissions["message"]}")
